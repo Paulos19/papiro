@@ -1,0 +1,65 @@
+// prisma/schema.prisma (VERSÃO ATUALIZADA)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  BUYER
+}
+
+model User {
+  id       String  @id @default(cuid())
+  name     String? // Adicionamos o campo nome para os compradores
+  email    String  @unique
+  password String
+  role     Role    @default(BUYER) // Novo campo de função, padrão é BUYER
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique // Mapeado de "Estante*"
+  books Book[]
+}
+
+model Book {
+  id                   String  @id @default(cuid())
+  title                String // Mapeado de "Título*"
+  author               String // Mapeado de "Autor*"
+  publisher            String // Mapeado de "Editora*"
+  publicationYear      Int // Mapeado de "Ano*"
+  price                Decimal // Mapeado de "Preço*"
+  conditionDescription String // Mapeado de "Conservação: Descrição*"
+  coverImageUrl        String?
+
+  description String? @db.Text // Descrição/sinopse para o banner e página de detalhes
+  pages       Int? // Número de páginas
+  isFeatured  Boolean @default(false) // Marca se o livro é um destaque para a home
+
+  stock         Int     @default(1) // Mapeado de "Estoque"
+  isbn          String? @unique // Mapeado de "ISBN/ISSN"
+  weightInGrams Int? // Mapeado de "Peso (g)"
+  bookType      String? // Mapeado de "Tipo de publicação: Revista/Livro"
+  condition     String? // Mapeado de "Tipo: Novo/Usado"
+  edition       String? // Mapeado de "Edição Número"
+  language      String? // Mapeado de "Idioma"
+  binding       String? // Mapeado de "Acabamento"
+  subject       String? // Mapeado de "Assunto"
+  location      String? // Mapeado de "Localização"
+
+  // Relação com Categoria (Estante)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

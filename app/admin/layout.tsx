@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
+import { Toaster } from "@/components/ui/sonner"
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { BookUp, Upload, LogOut, Home } from "lucide-react";
+import { BookUp, Upload, LogOut, Home, Users, BarChart3 } from "lucide-react";
 import { LogoutButton } from "./components/LogoutButton"; // Vamos reutilizar e mover este componente
 
 export default async function AdminLayout({
@@ -21,25 +22,37 @@ export default async function AdminLayout({
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Home className="h-6 w-6" />
               <span className="">Papiro do Branco</span>
             </Link>
           </div>
           <nav className="flex-1 px-4 text-sm font-medium lg:px-6">
-            {/* Adicione novos links aqui no futuro */}
             <Link
-              href="/admin"
-              className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+              href="/admin" // Link para o futuro dashboard de gráficos
+              className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
-              <Upload className="h-4 w-4" />
-              Importação
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
             </Link>
             <Link
-              href="#" // Link para uma futura página de gerenciamento
+              href="/admin/livros" // Link para a gestão de livros
               className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
             >
               <BookUp className="h-4 w-4" />
-              Gerenciar Livros
+              Livros
+            </Link>
+            <Link
+              href="/admin/usuarios" // Link para a gestão de usuários
+              className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <Users className="h-4 w-4" />
+              Usuários
+            </Link>
+            <Link
+              href="/admin/import" // Renomeamos a rota de importação
+              className="mt-2 flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <Upload className="h-4 w-4" />
+              Importação
             </Link>
           </nav>
         </div>
@@ -57,6 +70,7 @@ export default async function AdminLayout({
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {children}
         </main>
+        <Toaster position="top-right" richColors />
       </div>
     </div>
   );

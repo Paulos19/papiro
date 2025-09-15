@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { HeroBanner } from "./components/HeroBanner";
 import { BookCarousel } from "./components/BookCarousel";
 import { BookForClient } from "@/lib/types"; // Importa o tipo centralizado
+import { Navbar } from "./components/Navbar";
 
 async function getHomePageData() {
   // Busca o primeiro livro marcado como "destaque" e que tenha a relação de categoria
@@ -73,6 +74,8 @@ export default async function HomePage() {
   }
 
   return (
+    <>
+    <Navbar/>
     <main>
       <HeroBanner featuredBook={featuredBook as BookForClient} />
       
@@ -86,5 +89,6 @@ export default async function HomePage() {
         ))}
       </div>
     </main>
+    </>
   );
 }

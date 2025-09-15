@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { CategoryCard } from '../components/categorias/CategoryCard';
+import { Navbar } from '../components/Navbar';
 
 async function getCategories() {
   const categories = await prisma.category.findMany({
@@ -26,6 +27,8 @@ export default async function CategoriasPage() {
   const categories = await getCategories();
 
   return (
+    <>
+    <Navbar/>
     <main className="container py-12">
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold">Explore por Categoria</h1>
@@ -42,5 +45,6 @@ export default async function CategoriasPage() {
         </div>
       )}
     </main>
+    </>
   );
 }

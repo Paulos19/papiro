@@ -3,6 +3,7 @@ import { BookWithSerializablePrice } from '@/app/page';
 import { notFound } from 'next/navigation';
 import { BookList } from '@/app/components/livros/BookList';
 import { PaginationControls } from '@/app/components/livros/PaginationControls';
+import { Navbar } from '@/app/components/Navbar';
 
 const BOOKS_PER_PAGE = 20;
 
@@ -67,6 +68,8 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const { books, totalPages, currentPage, categoryName } = await getCategoryData(params, searchParams);
 
   return (
+    <>
+    <Navbar/>
     <main className="container py-12">
       <h1 className="text-4xl font-bold mb-2">Estante: {categoryName}</h1>
       <p className="text-lg text-muted-foreground mb-8">
@@ -77,6 +80,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
       <BookList books={books} />
       <PaginationControls totalPages={totalPages} currentPage={currentPage} />
     </main>
+    </>
   );
 }
 

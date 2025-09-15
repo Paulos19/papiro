@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
 import { ContactSellerButton } from '@/app/components/livros/ContactSellerButton';
+import { Navbar } from '@/app/components/Navbar';
 
 interface BookDetailsPageProps {
   params: {
@@ -39,6 +40,8 @@ export default async function BookDetailsPage({ params }: BookDetailsPageProps) 
   const imageUrl = book.coverImageUrl || '/book-cover.jpg';
 
   return (
+    <>
+    <Navbar/>
     <main className="container py-12">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
         {/* Coluna da Imagem */}
@@ -97,6 +100,7 @@ export default async function BookDetailsPage({ params }: BookDetailsPageProps) 
         </div>
       </div>
     </main>
+    </>
   );
 }
 

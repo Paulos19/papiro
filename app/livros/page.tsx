@@ -5,6 +5,7 @@ import { BookFilters } from '../components/livros/BookFilters';
 import { BooksPageSkeleton } from '../components/livros/BooksPageSkeleton';
 import { BookList } from '../components/livros/BookList';
 import { PaginationControls } from '../components/livros/PaginationControls';
+import { Navbar } from '../components/Navbar';
 
 const BOOKS_PER_PAGE = 20;
 
@@ -67,6 +68,8 @@ export default async function LivrosPage({ searchParams }: LivrosPageProps) {
   const categories = await prisma.category.findMany();
 
   return (
+    <>
+    <Navbar/>
     <main className="container py-8">
       <h1 className="text-3xl font-bold mb-6">Nosso Acervo</h1>
       <div className="space-y-8">
@@ -76,6 +79,7 @@ export default async function LivrosPage({ searchParams }: LivrosPageProps) {
         </Suspense>
       </div>
     </main>
+    </>
   );
 }
 

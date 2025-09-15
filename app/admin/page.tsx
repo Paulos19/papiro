@@ -1,11 +1,12 @@
-import { ImportForm } from "./components/ImportForm";
-
-export default async function AdminDashboard() {
+export default async function AdminDashboardPage() {
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-4">Importação de Livros em Massa</h1>
-      <div className="max-w-2xl">
-        <ImportForm />
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <p className="text-muted-foreground">Visão geral da sua loja.</p>
+      </div>
+      <div className="border rounded-lg p-8 text-center">
+        <p className="text-muted-foreground">Gráficos e estatísticas de usuários serão exibidos aqui em breve.</p>
       </div>
     </div>
   );

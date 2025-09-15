@@ -6,7 +6,7 @@ import { NextAuthProvider } from "./components/Providers"; // Precisamos do Prov
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Papiro do Branco",
+  title: "Papiro Branco",
   description: "Sua livraria virtual.",
 };
 

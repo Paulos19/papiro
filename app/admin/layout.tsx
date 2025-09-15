@@ -27,7 +27,7 @@ export default async function AdminLayout({
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Home className="h-6 w-6" />
-              <span className="">Papiro do Branco</span>
+              <span className="">Papiro Branco</span>
             </Link>
           </div>
           {/* Usa o componente de links reutilizável */}
@@ -51,7 +51,7 @@ export default async function AdminLayout({
                 <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                     <Link href="/" className="flex items-center gap-2 font-semibold">
                     <Home className="h-6 w-6" />
-                    <span className="">Papiro do Branco</span>
+                    <span className="">Papiro Branco</span>
                     </Link>
                 </div>
                 {/* Reutiliza os mesmos links no menu mobile */}

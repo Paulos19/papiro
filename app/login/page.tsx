@@ -45,7 +45,7 @@ export default function LoginPage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-slate-50 dark:bg-slate-900 p-4">
       <div className='text-center mb-8'>
-        <h1 className='text-4xl font-bold tracking-tight'>Papiro do Branco</h1>
+        <h1 className='text-4xl font-bold tracking-tight'>Papiro Branco</h1>
         <p className='text-muted-foreground'>Área do Administrador</p>
       </div>
       <Card className="w-full max-w-sm">

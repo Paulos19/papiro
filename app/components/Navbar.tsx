@@ -48,7 +48,7 @@ export function Navbar() {
                   <Link href="/">
                     <Image 
                       src="/logo.png" 
-                      alt="Papiro do Branco Logo" 
+                      alt="Papiro Branco Logo" 
                       width={45}
                       height={33} 
                       className="object-contain"
@@ -85,7 +85,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <Image 
               src="/logo.png" 
-              alt="Papiro do Branco Logo" 
+              alt="Papiro Branco Logo" 
               width={45}
               height={33} 
               className="object-contain"

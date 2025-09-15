@@ -66,7 +66,7 @@ export default async function HomePage() {
     return (
       <main className="p-8 text-white text-center flex items-center justify-center h-screen">
         <div>
-          <h1 className="text-2xl font-bold">Bem-vindo ao Papiro do Branco!</h1>
+          <h1 className="text-2xl font-bold">Bem-vindo ao Papiro Branco!</h1>
           <p className="text-lg mt-2 text-muted-foreground">Seu acervo parece estar vazio. Comece importando seus livros no painel de administrador.</p>
         </div>
       </main>

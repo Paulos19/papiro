@@ -37,7 +37,7 @@ export function ShareButton({ bookId, initialShortLink }: ShareButtonProps) {
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Não foi possível gerar o link de partilha. Tente novamente.';
-      toast.error('Erro ao partilhar', {
+      toast.error('Erro ao compartilhar', {
         description: errorMessage,
       });
     } finally {
@@ -56,7 +56,7 @@ export function ShareButton({ bookId, initialShortLink }: ShareButtonProps) {
       ) : (
         <Share2 className="mr-2 h-4 w-4" />
       )}
-      {isLoading ? 'A gerar link...' : 'Partilhar'}
+      {isLoading ? 'A gerar link...' : 'Compartilhar'}
     </Button>
   );
 }

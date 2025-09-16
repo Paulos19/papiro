@@ -10,7 +10,6 @@ const categorySchema = z.object({
   iconName: z.string().optional(),
 });
 
-// CORREÇÃO: Adicionado 'export'
 export async function createCategory(prevState: State, formData: FormData): Promise<State> {
   const validatedFields = categorySchema.safeParse(Object.fromEntries(formData.entries()));
 
@@ -27,13 +26,13 @@ export async function createCategory(prevState: State, formData: FormData): Prom
     
     await prisma.category.create({ data: validatedFields.data });
     revalidatePath('/admin/categorias');
+    revalidatePath('/categorias'); // Adiciona a revalidação da página pública
     return { success: true, message: 'Categoria criada com sucesso.' };
   } catch (error) {
     return { message: 'Erro no banco de dados: Não foi possível criar a categoria.' };
   }
 }
 
-// CORREÇÃO: Adicionado 'export'
 export async function updateCategory(id: string, prevState: State, formData: FormData): Promise<State> {
   const validatedFields = categorySchema.safeParse(Object.fromEntries(formData.entries()));
 
@@ -47,13 +46,13 @@ export async function updateCategory(id: string, prevState: State, formData: For
       data: validatedFields.data,
     });
     revalidatePath('/admin/categorias');
+    revalidatePath('/categorias'); // Adiciona a revalidação da página pública
     return { success: true, message: 'Categoria atualizada com sucesso.' };
   } catch (error) {
     return { message: 'Erro no banco de dados: Não foi possível atualizar a categoria.' };
   }
 }
 
-// CORREÇÃO: Adicionado 'export'
 export async function deleteCategory(id: string) {
   try {
     const booksInCategory = await prisma.book.count({ where: { categoryId: id } });
@@ -63,8 +62,10 @@ export async function deleteCategory(id: string) {
 
     await prisma.category.delete({ where: { id } });
     revalidatePath('/admin/categorias');
+    revalidatePath('/categorias'); // Adiciona a revalidação da página pública
     return { success: true, message: 'Categoria excluída com sucesso.' };
   } catch (error) {
     return { success: false, message: 'Erro no banco de dados.' };
   }
 }
+

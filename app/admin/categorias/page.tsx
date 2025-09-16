@@ -18,3 +18,4 @@ export default async function AdminCategoriesPage() {
   // 2. Passamos os dados para um Client Component que cuidará de toda a interatividade.
   return <CategoriesClientPage initialCategories={categories} />;
 }
+

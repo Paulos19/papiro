@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { CategoryForm } from './CategoryForm';
-import { deleteCategory } from './actions'; // Import agora funciona
+import { deleteCategory } from './actions';
 import { toast } from 'sonner';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
@@ -27,7 +27,6 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
   const handleSuccess = () => {
     setIsModalOpen(false);
     setEditingCategory(null);
-    // Não é necessário buscar dados aqui, o revalidatePath da Server Action fará o trabalho.
   };
 
   const handleDelete = async (id: string, name: string, bookCount: number) => {
@@ -117,3 +116,4 @@ export function CategoriesClientPage({ initialCategories }: CategoriesClientPage
     </div>
   );
 }
+

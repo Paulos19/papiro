@@ -54,3 +54,4 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
     </form>
   );
 }
+

@@ -1,0 +1,21 @@
+## Error Type
+Runtime TypeError
+
+## Error Message
+Cannot read properties of undefined (reading 'map')
+
+
+    at CategoryForm (app/admin/categorias/CategoryForm.tsx:43:9)
+    at CategoriesClientPage (app/admin/categorias/CategoriesClientPage.tsx:68:13)
+    at AdminCategoriesPage (app\admin\categorias\page.tsx:19:10)
+
+## Code Frame
+  41 |       <div>
+  42 |         <label className="block text-sm font-medium mb-1">Ícone</label>
+> 43 |         <IconPicker value={selectedIcon} onChange={setSelectedIcon} />
+     |         ^
+  44 |         <input type="hidden" name="iconName" value={selectedIcon} />
+  45 |       </div>
+  46 |       <DialogFooter>
+
+Next.js version: 15.5.3 (Turbopack)

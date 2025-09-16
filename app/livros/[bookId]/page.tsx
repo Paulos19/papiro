@@ -88,15 +88,6 @@ export default async function BookDetailsPage({ params }: BookDetailsPageProps) 
 
               <dt className="text-muted-foreground">ISBN</dt>
               <dd>{book.isbn || 'Não informado'}</dd>
-
-              <dt className="text-muted-foreground">Idioma</dt>
-              <dd>{book.language || 'Não informado'}</dd>
-
-              <dt className="text-muted-foreground">Nº de Páginas</dt>
-              <dd>{book.pages || 'Não informado'}</dd>
-
-              <dt className="text-muted-foreground">Acabamento</dt>
-              <dd>{book.binding || 'Não informado'}</dd>
             </dl>
           </div>
 

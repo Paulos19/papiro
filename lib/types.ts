@@ -13,3 +13,4 @@ export type BookWithCategory = Book & { category: Category };
 export type BookForClient = Omit<BookWithCategory, 'price'> & {
   price: number;
 };
+

@@ -7,6 +7,7 @@ import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
 import { ContactSellerButton } from '@/app/components/livros/ContactSellerButton';
 import { Navbar } from '@/app/components/Navbar';
+import { ShareButton } from '@/app/components/livros/ShareButton'; // Importa o novo botão
 
 interface BookDetailsPageProps {
   params: {
@@ -14,19 +15,18 @@ interface BookDetailsPageProps {
   };
 }
 
-async function getBookDetails(bookId: string): Promise<BookForClient> {
+async function getBookDetails(bookId: string): Promise<BookForClient | null> {
   const book = await prisma.book.findUnique({
     where: { id: bookId },
     include: {
-      category: true, // Inclui a categoria para exibirmos o nome
+      category: true, 
     },
   });
 
   if (!book) {
-    notFound();
+    return null;
   }
 
-  // Serializa o preço e garante a compatibilidade com o tipo
   const serializedBook: BookForClient = {
     ...book,
     price: book.price.toNumber(),
@@ -37,6 +37,11 @@ async function getBookDetails(bookId: string): Promise<BookForClient> {
 
 export default async function BookDetailsPage({ params }: BookDetailsPageProps) {
   const book = await getBookDetails(params.bookId);
+  
+  if (!book) {
+    notFound();
+  }
+  
   const imageUrl = book.coverImageUrl || '/book-cover.jpg';
 
   return (
@@ -69,6 +74,8 @@ export default async function BookDetailsPage({ params }: BookDetailsPageProps) 
           <p className="text-4xl font-bold text-primary my-6">{formatCurrency(book.price)}</p>
 
           <ContactSellerButton book={book} />
+          {/* Adiciona o novo botão de partilha */}
+          <ShareButton bookId={book.id} initialShortLink={book.shortLink} />
 
           <div className="mt-8 border-t pt-6">
             <h2 className="text-lg font-semibold mb-4">Detalhes do Livro</h2>

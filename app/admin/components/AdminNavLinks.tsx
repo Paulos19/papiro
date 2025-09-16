@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookUp, Upload, BarChart3, Users } from "lucide-react";
+import { BookUp, Upload, BarChart3, Users, ChartColumnStacked } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function AdminNavLinks() {
@@ -11,6 +11,7 @@ export function AdminNavLinks() {
   const links = [
     { href: "/admin", label: "Dashboard", icon: BarChart3 },
     { href: "/admin/livros", label: "Livros", icon: BookUp },
+    { href: "/admin/categorias", label: "Categorias", icon: ChartColumnStacked },
     { href: "/admin/usuarios", label: "Usuários", icon: Users },
     { href: "/admin/import", label: "Importação", icon: Upload },
   ];

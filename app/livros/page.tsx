@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { BookWithSerializablePrice } from '../page';
+import { BookForClient } from '@/lib/types';
 import { Suspense } from 'react';
 import { BookFilters } from '../components/livros/BookFilters';
 import { BooksPageSkeleton } from '../components/livros/BooksPageSkeleton';
@@ -9,27 +9,31 @@ import { Navbar } from '../components/Navbar';
 
 const BOOKS_PER_PAGE = 20;
 
+// Interface atualizada para refletir os novos filtros avançados
 interface LivrosPageProps {
   searchParams: {
-    q?: string;
+    title?: string;
+    author?: string;
+    publisher?: string;
+    isbn?: string;
     categoria?: string;
     condicao?: string;
     ordenar?: string;
-    page?: string; // Parâmetro da página
+    page?: string;
   };
 }
 
 async function getBooksAndCategories(searchParams: LivrosPageProps['searchParams']) {
-  const { q, categoria, condicao, ordenar, page = '1' } = searchParams;
+  const { title, author, publisher, isbn, categoria, condicao, ordenar, page = '1' } = searchParams;
   const currentPage = parseInt(page);
 
   const where: any = {};
-  if (q) {
-    where.OR = [
-      { title: { contains: q, mode: 'insensitive' } },
-      { author: { contains: q, mode: 'insensitive' } },
-    ];
-  }
+
+  // Lógica de filtro avançado: adiciona uma condição para cada parâmetro de busca presente
+  if (title) { where.title = { contains: title, mode: 'insensitive' }; }
+  if (author) { where.author = { contains: author, mode: 'insensitive' }; }
+  if (publisher) { where.publisher = { contains: publisher, mode: 'insensitive' }; }
+  if (isbn) { where.isbn = { contains: isbn, mode: 'insensitive' }; }
   if (categoria) { where.category = { name: categoria }; }
   if (condicao) { where.condition = condicao; }
 
@@ -38,15 +42,14 @@ async function getBooksAndCategories(searchParams: LivrosPageProps['searchParams
   else if (ordenar === 'preco_desc') { orderBy.price = 'desc'; }
   else { orderBy.createdAt = 'desc'; }
 
-  // Busca os livros com paginação
   const booksQuery = prisma.book.findMany({
     where,
     orderBy,
     take: BOOKS_PER_PAGE,
     skip: (currentPage - 1) * BOOKS_PER_PAGE,
+    include: { category: true }
   });
 
-  // Conta o total de livros para a paginação
   const countQuery = prisma.book.count({ where });
 
   const categoriesQuery = prisma.category.findMany();
@@ -55,7 +58,7 @@ async function getBooksAndCategories(searchParams: LivrosPageProps['searchParams
 
   const totalPages = Math.ceil(totalBooks / BOOKS_PER_PAGE);
 
-  const serializedBooks: BookWithSerializablePrice[] = books.map(book => ({
+  const serializedBooks: BookForClient[] = books.map(book => ({
     ...book,
     price: book.price.toNumber(),
   }));
@@ -64,7 +67,6 @@ async function getBooksAndCategories(searchParams: LivrosPageProps['searchParams
 }
 
 export default async function LivrosPage({ searchParams }: LivrosPageProps) {
-  // A busca dos filtros não precisa esperar pelo Suspense
   const categories = await prisma.category.findMany();
 
   return (
@@ -83,7 +85,6 @@ export default async function LivrosPage({ searchParams }: LivrosPageProps) {
   );
 }
 
-// Criamos um componente async separado para usar com o Suspense
 async function BookListAndPagination({ searchParams }: LivrosPageProps) {
   const { books, totalPages, currentPage } = await getBooksAndCategories(searchParams);
   return (

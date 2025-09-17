@@ -13,7 +13,6 @@ interface BookFiltersProps {
   categories: Category[];
 }
 
-// Componente interno para evitar duplicação de código
 const FiltersContent = ({ categories }: { categories: Category[] }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,6 +20,7 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
+      params.set('page', '1'); // Reseta para a primeira página a cada novo filtro
       if (value) {
         params.set(name, value);
       } else {
@@ -36,17 +36,42 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
     router.push(`/livros?${newQuery}`);
   };
 
+  const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      const { name, value } = event.currentTarget;
+      handleFilterChange(name, value);
+    }
+  };
+
   const clearFilters = () => {
     router.push('/livros');
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <Input
-        placeholder="Buscar por título ou autor..."
-        defaultValue={searchParams.get('q') || ''}
-        onBlur={(e) => handleFilterChange('q', e.target.value)}
-        onKeyDown={(e) => { if (e.key === 'Enter') { handleFilterChange('q', (e.target as HTMLInputElement).value); } }}
+        name="title"
+        placeholder="Filtrar por Título..."
+        defaultValue={searchParams.get('title') || ''}
+        onKeyDown={handleInputChange}
+      />
+      <Input
+        name="author"
+        placeholder="Filtrar por Autor..."
+        defaultValue={searchParams.get('author') || ''}
+        onKeyDown={handleInputChange}
+      />
+      <Input
+        name="publisher"
+        placeholder="Filtrar por Editora..."
+        defaultValue={searchParams.get('publisher') || ''}
+        onKeyDown={handleInputChange}
+      />
+      <Input
+        name="isbn"
+        placeholder="Filtrar por ISBN..."
+        defaultValue={searchParams.get('isbn') || ''}
+        onKeyDown={handleInputChange}
       />
       <Select onValueChange={(value) => handleFilterChange('categoria', value)} defaultValue={searchParams.get('categoria') || 'all'}>
         <SelectTrigger><SelectValue placeholder="Filtrar por categoria" /></SelectTrigger>
@@ -71,31 +96,18 @@ const FiltersContent = ({ categories }: { categories: Category[] }) => {
           <SelectItem value="preco_desc">Preço: Maior para Menor</SelectItem>
         </SelectContent>
       </Select>
-      <Button variant="ghost" onClick={clearFilters} className="w-full">Limpar Filtros</Button>
+      <Button variant="ghost" onClick={clearFilters} className="w-full sm:col-span-2 md:col-span-1">Limpar Filtros</Button>
     </div>
   );
 };
 
-
 export function BookFilters({ categories }: BookFiltersProps) {
   return (
     <>
-      {/* Filtros para Desktop (visível a partir de 'md') */}
-      <div className="hidden md:block p-4 border rounded-lg bg-card text-card-foreground">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="lg:col-span-2">
-            <Input
-              placeholder="Buscar por título ou autor..."
-              defaultValue={useSearchParams().get('q') || ''}
-              onBlur={(e) => { /* lógica de filtro */ }}
-              onKeyDown={(e) => { /* lógica de filtro */ }}
-            />
-          </div>
-          {/* ... renderize os outros Selects aqui ... */}
-        </div>
+      <div className="hidden md:block p-6 border rounded-lg bg-card text-card-foreground">
+        <FiltersContent categories={categories} />
       </div>
 
-      {/* Botão e Gaveta de Filtros para Mobile (visível abaixo de 'md') */}
       <div className="md:hidden">
         <Sheet>
           <SheetTrigger asChild>
@@ -104,11 +116,11 @@ export function BookFilters({ categories }: BookFiltersProps) {
               Filtros e Ordenação
             </Button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-lg">
+          <SheetContent side="bottom" className="rounded-t-lg max-h-[80vh] overflow-y-auto">
             <SheetHeader>
-              <SheetTitle>Filtros</SheetTitle>
+              <SheetTitle>Filtros Avançados</SheetTitle>
               <SheetDescription>
-                Refine sua busca para encontrar o livro perfeito.
+                Refine a sua busca para encontrar o livro perfeito.
               </SheetDescription>
             </SheetHeader>
             <div className="py-4">
